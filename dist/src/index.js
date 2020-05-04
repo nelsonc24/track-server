@@ -8,10 +8,12 @@ const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const authRoutes_1 = __importDefault(require("../routes/authRoutes"));
+const requireAuth_1 = __importDefault(require("./middlewares/requireAuth"));
 const app = express_1.default();
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use(authRoutes_1.default);
+app.use(requireAuth_1.default);
 const mongoUri = 'mongodb+srv://admin:carteldecali@cluster0-lqig6.mongodb.net/test?retryWrites=true&w=majority';
 mongoose_1.default.connect(mongoUri, {
     useNewUrlParser: true,
@@ -24,7 +26,7 @@ mongoose_1.default.connection.on('error', err => {
     console.log('Error connecting to mongo', err);
 });
 app.get('/', (req, res) => {
-    res.send('hi There!');
+    res.send(`Your email: ${req.user.email}`);
 });
 app.post('/t', (req, res) => {
     res.send('Post a la verga');
