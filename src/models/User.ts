@@ -1,4 +1,5 @@
-import mongoose, {model, Model, Schema, Document} from 'mongoose';
+import mongoose, { model, Model, Schema, Document } from 'mongoose';
+import bcrypt from 'bcrypt';
 
 export interface User extends Document {
     email: string,
@@ -7,7 +8,7 @@ export interface User extends Document {
 const userSchema = new Schema({
     email: {
         type: String,
-        unique:true,
+        unique: true,
         required: true
     },
     password: {
@@ -15,6 +16,46 @@ const userSchema = new Schema({
         required: true
     }
 });
+
+userSchema.pre('save', function (next) {
+    const user = this as any;
+    if (!user.isModified('password')) {
+        return next();
+    }
+
+    bcrypt.genSalt(10, (err: Error, salt: string) => {
+        if (err) {
+            return next(err);
+        }
+
+        bcrypt.hash(user.password, salt, (err, hash) => {
+            if (err) {
+                return next(err);
+            }
+            user.password = hash;
+            next();
+        });
+
+    });
+});
+
+userSchema.methods.comparePassword = function (candidatePassword: string) {
+    const user = this as any;
+    
+    return new Promise((resolve, reject) => {
+        bcrypt.compare(candidatePassword, user.password, (err, isMatch) => {
+            if (err) {
+                return reject(err);
+            }
+            if (!isMatch) {
+                return reject(false);
+            }
+
+            return resolve(true);
+        })
+    });
+
+}
 
 const User = model<User>('User', userSchema);
 export default User;
