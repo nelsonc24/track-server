@@ -1,4 +1,4 @@
-import mongoose, { model, Model, Schema, Document } from 'mongoose';
+import mongoose, { model, Schema, Document } from 'mongoose';
 import bcrypt from 'bcrypt';
 
 export interface User extends Document {
@@ -17,8 +17,8 @@ const userSchema = new Schema({
     }
 });
 
-userSchema.pre('save', function (next) {
-    const user = this as any;
+userSchema.pre<User>('save', function (next) {
+    const user = this;
     if (!user.isModified('password')) {
         return next();
     }
@@ -40,7 +40,7 @@ userSchema.pre('save', function (next) {
 });
 
 userSchema.methods.comparePassword = function (candidatePassword: string) {
-    const user = this as any;
+    const user = this;
     
     return new Promise((resolve, reject) => {
         bcrypt.compare(candidatePassword, user.password, (err, isMatch) => {

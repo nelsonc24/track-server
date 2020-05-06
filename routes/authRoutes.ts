@@ -25,7 +25,9 @@ authRoutes.post('/signup', async (req: Request, res: Response) => {
 authRoutes.post('/signin', async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
-    if(!email || password) {
+    console.log( 'signin', email, password);
+
+    if(!email || !password) {
         return res.status(422).send({error: 'Must provide email and password'});
     }
 
@@ -41,6 +43,6 @@ authRoutes.post('/signin', async (req: Request, res: Response) => {
     } catch (error) {
         return res.status(422).send({error: 'Invalid password or email'});
     }
-})
+});
 
 export default authRoutes;

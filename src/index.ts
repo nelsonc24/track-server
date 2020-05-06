@@ -1,9 +1,11 @@
 require('./models/User');
+require('./models/Track');
 import express, { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import authRoutes from '../routes/authRoutes';
-import requireAuth from './middlewares/requireAuth'
+import trackRoutes from '../routes/trackRoutes';
+import requireAuth from './middlewares/requireAuth';
 
 const app = express();
 
@@ -11,6 +13,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(authRoutes);
 app.use(requireAuth);
+app.use(trackRoutes);
 
 
 const mongoUri = 'mongodb+srv://admin:carteldecali@cluster0-lqig6.mongodb.net/test?retryWrites=true&w=majority'
