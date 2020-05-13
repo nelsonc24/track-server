@@ -1,4 +1,4 @@
-import express, { Request, Response, Router } from 'express';
+import { Request, Response, Router } from 'express';
 import { model } from 'mongoose';
 import requireAuth from '../src/middlewares/requireAuth';
 import { TrackSchema } from '../src/models/Track';

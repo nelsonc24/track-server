@@ -18,7 +18,9 @@ authRoutes.post('/signup', async (req: Request, res: Response) => {
         res.send({token});
 
     } catch (error) {
-        res.status(422).send(error.message)
+        res.status(422).send(error.message);
+        console.log(error.message);
+        
     }
 });
 

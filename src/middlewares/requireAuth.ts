@@ -1,7 +1,7 @@
-import {Request, Response, NextFunction} from 'express';
+import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import {model} from 'mongoose';
-import {User} from '../models/User';
+import { model } from 'mongoose';
+import { User } from '../models/User';
 
 const User = model<User>('User');
 
@@ -11,15 +11,16 @@ export interface RequestProp extends Request {
 
 export default (req: any, res: Response, next: NextFunction) => {
     const { authorization } = req.headers;
-    const error_not_auth = {error:'You must be logged in.'};
+    const error_not_auth = { error: 'You must be logged in.' };
 
-    if(!authorization) {
+    if (!authorization) {
         return res.status(401).send(error_not_auth);
     }
 
     const token = authorization.replace('Bearer ', '');
+    console.log('token', token);
     jwt.verify(token, 'MY_SECRET_KEY', async (err: any, payload: any) => {
-        if(err) {
+        if (err) {
             res.status(401).send(error_not_auth)
         }
 
@@ -30,5 +31,5 @@ export default (req: any, res: Response, next: NextFunction) => {
         req.user = user;
         next();
 
-    })
+    });
 }

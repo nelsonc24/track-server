@@ -19,6 +19,7 @@ authRoutes.post('/signup', async (req, res) => {
     }
     catch (error) {
         res.status(422).send(error.message);
+        console.log(error.message);
     }
 });
 authRoutes.post('/signin', async (req, res) => {
