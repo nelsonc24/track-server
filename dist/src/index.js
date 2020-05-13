@@ -20,7 +20,8 @@ app.use(trackRoutes_1.default);
 const mongoUri = 'mongodb+srv://admin:carteldecali@cluster0-lqig6.mongodb.net/test?retryWrites=true&w=majority';
 mongoose_1.default.connect(mongoUri, {
     useNewUrlParser: true,
-    useCreateIndex: true
+    useCreateIndex: true,
+    useUnifiedTopology: true
 });
 mongoose_1.default.connection.on('connected', () => {
     console.log('Connected to mongo instance');

@@ -19,7 +19,8 @@ app.use(trackRoutes);
 const mongoUri = 'mongodb+srv://admin:carteldecali@cluster0-lqig6.mongodb.net/test?retryWrites=true&w=majority'
 mongoose.connect(mongoUri, {
     useNewUrlParser: true,
-    useCreateIndex: true
+    useCreateIndex: true,
+    useUnifiedTopology: true
 });
 
 mongoose.connection.on('connected', () => {
