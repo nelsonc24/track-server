@@ -13,6 +13,7 @@ exports.default = (req, res, next) => {
         return res.status(401).send(error_not_auth);
     }
     const token = authorization.replace('Bearer ', '');
+    console.log('token', token);
     jsonwebtoken_1.default.verify(token, 'MY_SECRET_KEY', async (err, payload) => {
         if (err) {
             res.status(401).send(error_not_auth);
